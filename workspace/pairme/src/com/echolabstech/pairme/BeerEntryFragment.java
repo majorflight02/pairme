@@ -2,6 +2,7 @@ package com.echolabstech.pairme;
 
 import java.util.ArrayList;
 
+import com.echolabstech.db.Beer;
 import com.echolabstech.db.BeerPairingsDb;
 
 import android.app.Fragment;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,22 +126,21 @@ public class BeerEntryFragment extends Fragment implements OnClickListener, Text
 	{
 		final String LOCALTAG = TAG+"saveEntry";
 		
-		ArrayList<String> record = new ArrayList<String>();
+		Beer beer = new Beer();
+	
+		beer.mName = (mBeerName.getText().toString());
+		beer.mType = (mType.getText().toString());
+		beer.mHead = (mHead.getText().toString());
+		beer.mAroma = (mAroma.getText().toString());
+		beer.mAttack = (mAttack.getText().toString());
+		beer.mPrimary = (mPrimary.getText().toString());
+		beer.mSecondary = (mSecondary.getText().toString());
+		beer.mTertiary = (mTertiary.getText().toString());
+		beer.mFinal = (mFinal.getText().toString());
+		beer.mAfterTaste = (mAftertaste.getText().toString());
+		beer.mBody = (mBody.getText().toString());
 		
-		record.add("0");
-		record.add(mBeerName.getText().toString());
-		record.add(mType.getText().toString());
-		record.add(mHead.getText().toString());
-		record.add(mAroma.getText().toString());
-		record.add(mAttack.getText().toString());
-		record.add(mPrimary.getText().toString());
-		record.add(mSecondary.getText().toString());
-		record.add(mTertiary.getText().toString());
-		record.add(mFinal.getText().toString());
-		record.add(mAftertaste.getText().toString());
-		record.add(mBody.getText().toString());
-		
-		return MainActivity.mBeerPairingsDb.writeBeerRecordByName(record);
+		return MainActivity.mBeerPairingsDb.writeBeerRecordByName(beer);
 	}//saveEntry
 	
 	private void setListeners()
@@ -167,8 +168,8 @@ public class BeerEntryFragment extends Fragment implements OnClickListener, Text
 			if (DEBUG)
 			{
 				Log.v(LOCALTAG, "saveEntry id:"+id);
-				ArrayList<String> record = MainActivity.mBeerPairingsDb.getBeerRecordById(id);
-				Log.v(LOCALTAG, "name:"+record.get(1)+", row:"+record.get(0));
+				SparseArray<Beer> beers = MainActivity.mBeerPairingsDb.getBeerRecordById(id);
+				Log.v(LOCALTAG, "name:"+beers.get(1).mName+", row:"+beers.get(1).mId);
 			}//if debug
 		}//if submit button pressed
 		else if (v.getId() == mSearch.getId())

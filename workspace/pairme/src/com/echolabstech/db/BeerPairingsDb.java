@@ -45,7 +45,7 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 		//super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);
 	}//BeerPairingsDb
 
-	public ArrayList<String> getBeerRecordById(long id)
+	public SparseArray<Beer> getBeerRecordById(long id)
 	{
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -54,31 +54,34 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
 		String sqlTables = TBL_BEERENTRIES;
 		String selection = COL_ID+" = "+id;
-		ArrayList<String> record = new ArrayList<String>();
+		SparseArray<Beer> beers = new SparseArray<Beer>();
 		
 		qb.setTables(sqlTables);
 		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
 
 		c.moveToFirst();
-		while (record.size() < c.getColumnCount())
+		while (beers.size() < c.getColumnCount())
 		{
-			record.add(c.getString(c.getColumnIndex(COL_ID)));
-			record.add(c.getString(c.getColumnIndex(COL_BEERNAME)));
-			record.add(c.getString(c.getColumnIndex(COL_TYPE)));
-			record.add(c.getString(c.getColumnIndex(COL_HEAD)));
-			record.add(c.getString(c.getColumnIndex(COL_AROMA)));
-			record.add(c.getString(c.getColumnIndex(COL_ATTACK)));
-			record.add(c.getString(c.getColumnIndex(COL_PRIMARY)));
-			record.add(c.getString(c.getColumnIndex(COL_SECONDARY)));
-			record.add(c.getString(c.getColumnIndex(COL_TERTIARY)));
-			record.add(c.getString(c.getColumnIndex(COL_FINAL)));
-			record.add(c.getString(c.getColumnIndex(COL_AFTERTASTE)));
-			record.add(c.getString(c.getColumnIndex(COL_BODY)));
+			Beer beer = new Beer();
+			beer.mId = c.getLong(c.getColumnIndex(COL_ID));
+			beer.mName = c.getString(c.getColumnIndex(COL_BEERNAME));
+			beer.mType = c.getString(c.getColumnIndex(COL_PRIMARY));
+			beer.mHead = c.getString(c.getColumnIndex(COL_HEAD));
+			beer.mAroma = c.getString(c.getColumnIndex(COL_AROMA));
+			beer.mAttack = c.getString(c.getColumnIndex(COL_ATTACK));
+			beer.mPrimary = c.getString(c.getColumnIndex(COL_PRIMARY));
+			beer.mSecondary = c.getString(c.getColumnIndex(COL_SECONDARY));
+			beer.mTertiary = c.getString(c.getColumnIndex(COL_TERTIARY));
+			beer.mFinal = c.getString(c.getColumnIndex(COL_FINAL));
+			beer.mAfterTaste = c.getString(c.getColumnIndex(COL_AFTERTASTE));
+			beer.mBody = c.getString(c.getColumnIndex(COL_BODY));
+			
+			beers.append(beers.size(), beer);
 		}//while all columns have not be accounted for
 		
-		return record;
+		return beers;
 	}//getBeerRecordByName
-	
+	/*
 	public ArrayList<ArrayList<String>> getBeerRecordBySearchString(String search)
 	{
 		SQLiteDatabase db = getReadableDatabase();
@@ -117,34 +120,32 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 		
 		return records;
 	}//getBeerRecordByName
-	
-	public long writeBeerRecordByName(ArrayList<String> record)
+	*/
+	public long writeBeerRecordByName(Beer beer)
 	{
 		final String LOCALTAG = TAG+"writeBeerRecordByName";
 		
 		SQLiteDatabase db = getWritableDatabase();
 		String sqlTables = TBL_BEERENTRIES;
 		ContentValues cv = new ContentValues();
-		String whereClause = COL_BEERNAME +" = "+record.get(1);
+		String whereClause = COL_BEERNAME +" = '"+beer.mName+"'";
 		long id = 0;
 		
-		cv.put(COL_BEERNAME, record.get(1));
-		cv.put(COL_TYPE, record.get(2));
-		cv.put(COL_HEAD, record.get(3));
-		cv.put(COL_AROMA, record.get(4));
-		cv.put(COL_ATTACK, record.get(5));
-		cv.put(COL_PRIMARY, record.get(6));
-		cv.put(COL_SECONDARY, record.get(7));
-		cv.put(COL_TERTIARY, record.get(8));
-		cv.put(COL_FINAL, record.get(9));
-		cv.put(COL_AFTERTASTE, record.get(10));
-		cv.put(COL_BODY, record.get(11));
+		id = beer.mId;
+		cv.put(COL_BEERNAME, beer.mName);
+		cv.put(COL_TYPE,beer.mType );
+		cv.put(COL_HEAD, beer.mHead);
+		cv.put(COL_AROMA, beer.mAroma);
+		cv.put(COL_ATTACK, beer.mAttack);
+		cv.put(COL_PRIMARY, beer.mPrimary);
+		cv.put(COL_SECONDARY, beer.mSecondary);
+		cv.put(COL_TERTIARY, beer.mTertiary);
+		cv.put(COL_FINAL, beer.mFinal);
+		cv.put(COL_AFTERTASTE, beer.mAfterTaste);
+		cv.put(COL_BODY, beer.mBody);
 		
-		if (!record.get(0).isEmpty() && !record.get(0).contains("0"))
-		{
+		if (beer.mId > 0)
 			db.update(sqlTables, cv, whereClause, null);
-			id = Long.valueOf(record.get(0));
-		}//if row exists in db
 		else
 			id = db.insert(sqlTables, null, cv);
 		
