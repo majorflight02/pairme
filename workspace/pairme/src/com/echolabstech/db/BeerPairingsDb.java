@@ -45,7 +45,7 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 		//super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);
 	}//BeerPairingsDb
 
-	public SparseArray<Beer> getBeerRecordById(long id)
+	public Beer getBeerRecordById(long id)
 	{
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -54,15 +54,47 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
 		String sqlTables = TBL_BEERENTRIES;
 		String selection = COL_ID+" = "+id;
-		SparseArray<Beer> beers = new SparseArray<Beer>();
+		Beer beer = new Beer();
 		
 		qb.setTables(sqlTables);
 		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
 
 		c.moveToFirst();
-		while (beers.size() < c.getColumnCount())
+		
+		beer.mId = c.getLong(c.getColumnIndex(COL_ID));
+		beer.mName = c.getString(c.getColumnIndex(COL_BEERNAME));
+		beer.mType = c.getString(c.getColumnIndex(COL_PRIMARY));
+		beer.mHead = c.getString(c.getColumnIndex(COL_HEAD));
+		beer.mAroma = c.getString(c.getColumnIndex(COL_AROMA));
+		beer.mAttack = c.getString(c.getColumnIndex(COL_ATTACK));
+		beer.mPrimary = c.getString(c.getColumnIndex(COL_PRIMARY));
+		beer.mSecondary = c.getString(c.getColumnIndex(COL_SECONDARY));
+		beer.mTertiary = c.getString(c.getColumnIndex(COL_TERTIARY));
+		beer.mFinal = c.getString(c.getColumnIndex(COL_FINAL));
+		beer.mAfterTaste = c.getString(c.getColumnIndex(COL_AFTERTASTE));
+		beer.mBody = c.getString(c.getColumnIndex(COL_BODY));
+		
+		return beer;
+	}//getBeerRecordByName
+	
+	public SparseArray<Beer> getBeerRecordBySearchString(String search)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		String [] sqlSelect = {COL_ID, COL_BEERNAME, COL_TYPE, COL_HEAD, COL_AROMA, COL_ATTACK, COL_PRIMARY, COL_SECONDARY,
+				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
+		String sqlTables = TBL_BEERENTRIES;
+		String selection = COL_BEERNAME+" LIKE '%"+search+"%'";
+		SparseArray<Beer> beers = new SparseArray<Beer>();
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
+		c.moveToFirst();
+		
+		do
 		{
 			Beer beer = new Beer();
+			
 			beer.mId = c.getLong(c.getColumnIndex(COL_ID));
 			beer.mName = c.getString(c.getColumnIndex(COL_BEERNAME));
 			beer.mType = c.getString(c.getColumnIndex(COL_PRIMARY));
@@ -78,49 +110,11 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 			
 			beers.append(beers.size(), beer);
 		}//while all columns have not be accounted for
+		while (c.moveToNext());
 		
 		return beers;
 	}//getBeerRecordByName
-	/*
-	public ArrayList<ArrayList<String>> getBeerRecordBySearchString(String search)
-	{
-		SQLiteDatabase db = getReadableDatabase();
-		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-		String [] sqlSelect = {COL_ID, COL_BEERNAME, COL_TYPE, COL_HEAD, COL_AROMA, COL_ATTACK, COL_PRIMARY, COL_SECONDARY,
-				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
-		String sqlTables = TBL_BEERENTRIES;
-		String selection = COL_BEERNAME+" LIKE '%"+search+"%'";
-		ArrayList<ArrayList<String>> records = new ArrayList<ArrayList<String>>();
-		ArrayList<String> array;
-		
-		qb.setTables(sqlTables);
-		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
-		c.moveToFirst();
-		
-		do
-		{
-			array = new ArrayList<String>();
-			
-			array.add(c.getString(c.getColumnIndex(COL_ID)));
-			array.add(c.getString(c.getColumnIndex(COL_BEERNAME)));
-			array.add(c.getString(c.getColumnIndex(COL_TYPE)));
-			array.add(c.getString(c.getColumnIndex(COL_HEAD)));
-			array.add(c.getString(c.getColumnIndex(COL_AROMA)));
-			array.add(c.getString(c.getColumnIndex(COL_ATTACK)));
-			array.add(c.getString(c.getColumnIndex(COL_PRIMARY)));
-			array.add(c.getString(c.getColumnIndex(COL_SECONDARY)));
-			array.add(c.getString(c.getColumnIndex(COL_TERTIARY)));
-			array.add(c.getString(c.getColumnIndex(COL_FINAL)));
-			array.add(c.getString(c.getColumnIndex(COL_AFTERTASTE)));
-			array.add(c.getString(c.getColumnIndex(COL_BODY)));
-			
-			records.add(array);
-		}//while all columns have not be accounted for
-		while (c.moveToNext());
-		
-		return records;
-	}//getBeerRecordByName
-	*/
+
 	public long writeBeerRecordByName(Beer beer)
 	{
 		final String LOCALTAG = TAG+"writeBeerRecordByName";

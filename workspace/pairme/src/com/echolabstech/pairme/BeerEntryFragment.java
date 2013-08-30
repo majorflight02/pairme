@@ -168,8 +168,8 @@ public class BeerEntryFragment extends Fragment implements OnClickListener, Text
 			if (DEBUG)
 			{
 				Log.v(LOCALTAG, "saveEntry id:"+id);
-				SparseArray<Beer> beers = MainActivity.mBeerPairingsDb.getBeerRecordById(id);
-				Log.v(LOCALTAG, "name:"+beers.get(1).mName+", row:"+beers.get(1).mId);
+				Beer beer = MainActivity.mBeerPairingsDb.getBeerRecordById(id);
+				Log.v(LOCALTAG, "name:"+beer.mName+", row:"+beer.mId);
 			}//if debug
 		}//if submit button pressed
 		else if (v.getId() == mSearch.getId())
