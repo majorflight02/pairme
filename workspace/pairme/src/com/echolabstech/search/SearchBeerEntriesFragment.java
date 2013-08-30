@@ -1,13 +1,21 @@
 package com.echolabstech.search;
 
 import java.util.ArrayList;
+
+import com.echolabstech.db.Beer;
+import com.echolabstech.pairme.MainActivity;
 import com.echolabstech.pairme.R;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class SearchBeerEntriesFragment extends Fragment
 {
@@ -16,6 +24,8 @@ public class SearchBeerEntriesFragment extends Fragment
 	
 	private View mLayout;
 	private static final ArrayList<GameWonFragmentCommunication> mListeners = new ArrayList<GameWonFragmentCommunication>();
+	private EditText mSearchEditText;
+	private Button mSearchButton;
 	
 	public interface GameWonFragmentCommunication
 	{
@@ -48,7 +58,20 @@ public class SearchBeerEntriesFragment extends Fragment
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
+		final String LOCALTAG = TAG+"onCreateView";
+		
 		mLayout = inflater.inflate(R.layout.fragment_search_beer, container, false);	
+		
+		mSearchEditText = (EditText) mLayout.findViewById(R.id.fragment_search_beer_search_edittext);
+		mSearchButton = (Button) mLayout.findViewById(R.id.fragment_search_beer_search_button);
+		mSearchButton.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				searchBeerByName(mSearchEditText.getText().toString());
+			}//onClick
+		});//onclick listener
 		
 		return mLayout;		
 	}//onCreateView
@@ -72,4 +95,14 @@ public class SearchBeerEntriesFragment extends Fragment
 		if (DEBUG)
 			Log.v(LOCALTAG, "resume");
 	}//onResume	
+	
+	private void searchBeerByName(String search)
+	{
+		final String LOCALTAG = TAG+"onStart";
+		
+		SparseArray<Beer> beers = new SparseArray<Beer>();
+		beers = MainActivity.mBeerPairingsDb.getBeerRecordBySearchString(search);
+		Log.v(LOCALTAG, "number of results:"+beers.size());
+	}//searchBeerByName
+	
 }//FoodEntryFragmet

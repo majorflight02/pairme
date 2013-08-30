@@ -7,6 +7,7 @@
         android:id="@+id/fragment_search_beer_search_linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" >
 
         <TextView
@@ -22,12 +23,20 @@
             android:ems="10" />
 
     </LinearLayout>
+    
+   	<Button
+        android:id="@+id/fragment_search_beer_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_search_beer_search_linearlayout"
+        android:layout_alignLeft="@+id/fragment_search_beer_search_linearlayout"
+        android:text="Search" />
 
     <ListView
         android:id="@+id/fragment_search_beer_results_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_search_beer_search_linearlayout" >
+        android:layout_below="@+id/fragment_search_beer_search_button" >
     </ListView>
         
 </RelativeLayout>

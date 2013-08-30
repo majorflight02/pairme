@@ -89,9 +89,8 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 		
 		qb.setTables(sqlTables);
 		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
-		c.moveToFirst();
 		
-		do
+		while (c.moveToNext())
 		{
 			Beer beer = new Beer();
 			
@@ -110,7 +109,6 @@ public class BeerPairingsDb extends SQLiteAssetHelper
 			
 			beers.append(beers.size(), beer);
 		}//while all columns have not be accounted for
-		while (c.moveToNext());
 		
 		return beers;
 	}//getBeerRecordByName
