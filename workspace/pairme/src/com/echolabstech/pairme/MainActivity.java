@@ -1,7 +1,7 @@
 package com.echolabstech.pairme;
 
 import com.echolabstech.db.BeerPairingsDb;
-import com.echolabstech.popups.SearchBeerEntriesFragment;
+import com.echolabstech.search.SearchBeerEntriesFragment;
 
 import android.os.Bundle;
 import android.app.Activity;
