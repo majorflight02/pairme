@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.widget.EditText"/>
+<fullyQualifiedTypeName name="com.echolabstech.db.MyDatabase"/>
+<fullyQualifiedTypeName name="android.util.SparseArray"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.echolabstech.db.BeerPairingsDb"/>
+<fullyQualifiedTypeName name="android.widget.Button"/>
+<fullyQualifiedTypeName name="com.echolabstech.pairme.R.id"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="android.widget.TextView.OnEditorActionListener"/>
+<fullyQualifiedTypeName name="android.text.TextWatcher"/>
+<fullyQualifiedTypeName name="android.app.Fragment"/>
+<fullyQualifiedTypeName name="com.echolabstech.pairme.R"/>
+<fullyQualifiedTypeName name="com.echolabstech.popups.SearchBeerEntriesFragment"/>
+<fullyQualifiedTypeName name="com.echolabstech.pairme.BeerEntryFragment.BeerEntryFragmentCommunication"/>
+</qualifiedTypeNameHistroy>

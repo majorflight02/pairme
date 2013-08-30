@@ -1,0 +1,67 @@
+package com.echolabstech.db;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.SparseArray;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+public class BeerPairingsDb extends SQLiteAssetHelper {
+
+	//private static final String DATABASE_NAME = "beer_pairingsdb";
+	private static final String DATABASE_NAME = "beer_pairingsdb_with_record";
+	private static final int DATABASE_VERSION = 1;
+	
+	private String TBL_BEERENTRIES = "beer_entries";
+	private String COL_ID = "id";
+	private String COL_BEERNAME = "name";
+	private String COL_TYPE = "type";
+	private String COL_HEAD = "head";
+	private String COL_AROMA = "aroma";
+	private String COL_ATTACK = "taste_attack";
+	private String COL_PRIMARY = "taste_primary";
+	private String COL_SECONDARY = "taste_secondary";
+	private String COL_TERTIARY = "taste_tertiary";
+	private String COL_FINAL = "taste_final";
+	private String COL_AFTERTASTE = "taste_aftertaste";
+	private String COL_BODY = "body";
+	
+	public BeerPairingsDb(Context context) 
+	{
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		
+		// you can use an alternate constructor to specify a database location 
+		// (such as a folder on the sd card)
+		// you must ensure that this folder is available and you have permission
+		// to write to it
+		//super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);
+	}//BeerPairingsDb
+
+	public ArrayList<String> getBeerRecordByName(String beername)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {COL_ID, COL_BEERNAME, COL_TYPE, COL_HEAD, COL_AROMA, COL_ATTACK, COL_PRIMARY, COL_SECONDARY,
+				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
+		String sqlTables = TBL_BEERENTRIES;
+		ArrayList<String> record = new ArrayList<String>();
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, null, null,
+				null, null, null);
+
+		c.moveToFirst();
+		while (record.size() < c.getColumnCount())
+		{
+			record.add(c.getString(c.getColumnIndex(COL_ID)));
+		}//while all columns have not be accounted for
+		
+		return record;
+	}//getBeerRecordByName
+
+}

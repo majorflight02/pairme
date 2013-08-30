@@ -1,0 +1,201 @@
+package com.echolabstech.pairme;
+
+import java.util.ArrayList;
+
+import com.echolabstech.db.BeerPairingsDb;
+
+import android.app.Fragment;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+
+public class BeerEntryFragment extends Fragment implements OnClickListener, TextWatcher  
+{
+	public static final String TAG = "BeerEntryFragment-";
+	public static final boolean DEBUG = true;
+	
+	private View mLayout;
+	private static final ArrayList<GameWonFragmentCommunication> mListeners = new ArrayList<GameWonFragmentCommunication>();
+	private EditText mBeerName;
+	private EditText mType;
+	private EditText mHead;
+	private EditText mAroma;
+	private EditText mAttack;
+	private EditText mPrimary;
+	private EditText mSecondary;
+	private EditText mTertiary;
+	private EditText mFinal;
+	private EditText mAftertaste;
+	private EditText mBody;
+	private Button mSubmit;
+	
+	public interface GameWonFragmentCommunication
+	{
+		public static final String MESSAGETYPE_GAME_WON = "MESSAGETYPE_GAME_WON";
+		public static final String MESSAGE_PUZZLE = "MESSAGE_PUZZLE";
+		
+		public void messageFromGameWonFragment(String messageType, String message);
+	}//PuzzlePackMenuFragmentCommunication
+	
+	public static void addListeners(GameWonFragmentCommunication listener)
+	{
+		mListeners.add(listener);
+	}//addListener
+	
+	public static void notifyListeners(String configuration, String message)
+	{
+		for (GameWonFragmentCommunication listener : mListeners)
+			listener.messageFromGameWonFragment(configuration, message);
+	}//notifyListeners
+	
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		final String LOCALTAG = TAG+"onCreate";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "onCreate");
+	}//onCreate
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		mLayout = inflater.inflate(R.layout.fragment_beer_entry, container, false);	
+		
+		mBeerName = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_beername_edittext);
+		mType = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_type_edittext);
+		mHead = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_head_edittext);
+		mAroma = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_aroma_edittext);
+		mAttack = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_attack_edittext);
+		mPrimary = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_primary_edittext);
+		mSecondary = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_secondary_edittext);
+		mTertiary = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_tertiary_edittext);
+		mFinal = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_final_edittext);
+		mAftertaste = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_aftertaste_edittext);
+		mBody = (EditText) mLayout.findViewById(R.id.fragment_beer_entry_body_edittext);
+		mSubmit = (Button) mLayout.findViewById(R.id.fragment_beer_entry_submit_btn);
+		
+		setListeners();
+		
+		return mLayout;		
+	}//onCreateView
+	
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		final String LOCALTAG = TAG+"onStart";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "start");
+	}//onResume	
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		final String LOCALTAG = TAG+"onResume";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "resume");
+	}//onResume
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		final String LOCALTAG = TAG+"onPause";
+		
+		saveEntry();
+	}//onPause
+	
+	private long saveEntry()
+	{
+		final String LOCALTAG = TAG+"saveEntry";
+		
+		ArrayList<String> record = new ArrayList<String>();
+		
+		record.add("0");
+		record.add(mBeerName.getText().toString());
+		record.add(mType.getText().toString());
+		record.add(mHead.getText().toString());
+		record.add(mAroma.getText().toString());
+		record.add(mAttack.getText().toString());
+		record.add(mPrimary.getText().toString());
+		record.add(mSecondary.getText().toString());
+		record.add(mTertiary.getText().toString());
+		record.add(mFinal.getText().toString());
+		record.add(mAftertaste.getText().toString());
+		record.add(mBody.getText().toString());
+		
+		return MainActivity.mBeerPairingsDb.writeBeerRecordByName(record);
+	}//saveEntry
+	
+	private void setListeners()
+	{
+		final String LOCALTAG = TAG+"setListeners";
+		
+		mSubmit.setOnClickListener(this);
+		
+		mBeerName.addTextChangedListener(this);
+	}//setListeners
+	
+	@Override
+	public void onClick(View v)
+	{
+		final String LOCALTAG = TAG+"onClick";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "click submit");
+		
+		if (v.getId() == mSubmit.getId())
+		{
+			long id = saveEntry();
+			
+			if (DEBUG)
+			{
+				ArrayList<String> record = MainActivity.mBeerPairingsDb.getBeerRecordById(2);
+				Log.v(LOCALTAG, "name:"+record.get(1));
+			}//if debug
+		}//if submit button pressed
+	}//oncClick
+
+	@Override
+	public void afterTextChanged(Editable s) 
+	{
+		final String LOCALTAG = TAG+"afterTextChanged";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, s.toString());
+	}//afterTextChanged
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) 
+	{
+		final String LOCALTAG = TAG+"beforeTextChanged";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, s.toString());
+	}//beforeTextChanged
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) 
+	{
+		final String LOCALTAG = TAG+"onTextChanged";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, s.toString());
+	}//onTextChanged
+
+}//BeerEntryFragment
+

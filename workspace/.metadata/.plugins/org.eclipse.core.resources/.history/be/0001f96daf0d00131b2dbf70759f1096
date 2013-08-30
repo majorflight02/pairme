@@ -1,0 +1,144 @@
+package com.echolabstech.db;
+
+import java.util.ArrayList;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
+import android.util.SparseArray;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+public class BeerPairingsDb extends SQLiteAssetHelper 
+{
+	public static final String TAG = "BeerPairingsDb-";
+	public static final boolean DEBUG = true;
+	
+	private static final String DATABASE_NAME = "beerpairingsdb";
+	private static final int DATABASE_VERSION = 1;
+	
+	public static final String TBL_BEERENTRIES = "beer_entries";
+	public static final String COL_ID = "id";
+	public static final String COL_BEERNAME = "name";
+	public static final String COL_TYPE = "type";
+	public static final String COL_HEAD = "head";
+	public static final String COL_AROMA = "aroma";
+	public static final String COL_ATTACK = "taste_attack";
+	public static final String COL_PRIMARY = "taste_primary";
+	public static final String COL_SECONDARY = "taste_secondary";
+	public static final String COL_TERTIARY = "taste_tertiary";
+	public static final String COL_FINAL = "taste_final";
+	public static final String COL_AFTERTASTE = "taste_aftertaste";
+	public static final String COL_BODY = "body";
+	
+	public BeerPairingsDb(Context context) 
+	{
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		
+		// you can use an alternate constructor to specify a database location 
+		// (such as a folder on the sd card)
+		// you must ensure that this folder is available and you have permission
+		// to write to it
+		//super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);
+	}//BeerPairingsDb
+
+	public ArrayList<String> getBeerRecordById(int id)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {COL_ID, COL_BEERNAME, COL_TYPE, COL_HEAD, COL_AROMA, COL_ATTACK, COL_PRIMARY, COL_SECONDARY,
+				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
+		String sqlTables = TBL_BEERENTRIES;
+		String selection = COL_ID+" = "+id;
+		ArrayList<String> record = new ArrayList<String>();
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
+
+		c.moveToFirst();
+		while (record.size() < c.getColumnCount())
+		{
+			record.add(c.getString(c.getColumnIndex(COL_ID)));
+			record.add(c.getString(c.getColumnIndex(COL_BEERNAME)));
+			record.add(c.getString(c.getColumnIndex(COL_TYPE)));
+			record.add(c.getString(c.getColumnIndex(COL_HEAD)));
+			record.add(c.getString(c.getColumnIndex(COL_AROMA)));
+			record.add(c.getString(c.getColumnIndex(COL_ATTACK)));
+			record.add(c.getString(c.getColumnIndex(COL_PRIMARY)));
+			record.add(c.getString(c.getColumnIndex(COL_SECONDARY)));
+			record.add(c.getString(c.getColumnIndex(COL_TERTIARY)));
+			record.add(c.getString(c.getColumnIndex(COL_FINAL)));
+			record.add(c.getString(c.getColumnIndex(COL_AFTERTASTE)));
+			record.add(c.getString(c.getColumnIndex(COL_BODY)));
+		}//while all columns have not be accounted for
+		
+		return record;
+	}//getBeerRecordByName
+	/*
+	public ArrayList<ArrayList<String>> getBeerRecordByName(String name)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {COL_ID, COL_BEERNAME, COL_TYPE, COL_HEAD, COL_AROMA, COL_ATTACK, COL_PRIMARY, COL_SECONDARY,
+				COL_TERTIARY, COL_FINAL, COL_AFTERTASTE, COL_BODY}; 
+		String sqlTables = TBL_BEERENTRIES;
+		String selection = COL_BEERNAME+" LIKE '%"+name+"%'";
+		ArrayList<ArrayList<String>> records = new ArrayList<ArrayList<String>>();
+		
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
+
+		c.moveToFirst();
+		while (records.size() < c.getColumnCount())
+		{
+			record.add(c.getString(c.getColumnIndex(COL_ID)));
+			record.add(c.getString(c.getColumnIndex(COL_BEERNAME)));
+			record.add(c.getString(c.getColumnIndex(COL_TYPE)));
+			record.add(c.getString(c.getColumnIndex(COL_HEAD)));
+			record.add(c.getString(c.getColumnIndex(COL_AROMA)));
+			record.add(c.getString(c.getColumnIndex(COL_ATTACK)));
+			record.add(c.getString(c.getColumnIndex(COL_PRIMARY)));
+			record.add(c.getString(c.getColumnIndex(COL_SECONDARY)));
+			record.add(c.getString(c.getColumnIndex(COL_TERTIARY)));
+			record.add(c.getString(c.getColumnIndex(COL_FINAL)));
+			record.add(c.getString(c.getColumnIndex(COL_AFTERTASTE)));
+			record.add(c.getString(c.getColumnIndex(COL_BODY)));
+		}//while all columns have not be accounted for
+		
+		return record;
+	}//getBeerRecordByName
+	*/
+	
+	public void writeBeerRecordByName(ArrayList<String> record)
+	{
+		final String LOCALTAG = TAG+"writeBeerRecordByName";
+		
+		SQLiteDatabase db = getWritableDatabase();
+		String sqlTables = TBL_BEERENTRIES;
+		ContentValues cv = new ContentValues();
+		String whereClause = COL_BEERNAME +" = "+record.get(1);
+		
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		cv.put(COL_, record);
+		
+		if (!record.get(0).contains("0") || !record.get(0).isEmpty())
+			db.update(sqlTables, cv, whereClause, null);
+		else
+			db.insert(sqlTables, null, cv);
+		
+	}//writePuzzle
+}//BeerPairingsDb

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <CheckBox
+        android:id="@+id/fragment_food_entry_beef_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignBaseline="@+id/fragment_food_entry_beef_edittext"
+        android:text="Beef" />
+
+    <EditText
+        android:id="@+id/fragment_food_entry_beef_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+    
+    <CheckBox
+        android:id="@+id/fragment_food_entry_chicken_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_food_entry_beef_checkbox"
+        android:layout_alignBaseline="@+id/fragment_food_entry_chicken_edittext"
+        android:text="Chicken" />
+
+    <EditText
+        android:id="@+id/fragment_food_entry_chicken_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_food_entry_beef_edittext"
+        android:layout_alignRight="@+id/fragment_food_entry_beef_edittext"
+        android:ems="10" >
+
+    </EditText>
+    
+    <CheckBox
+        android:id="@+id/fragment_food_entry_fish_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_food_entry_chicken_checkbox"
+        android:layout_alignBaseline="@+id/fragment_food_entry_fish_edittext"
+        android:text="Fish" />
+
+    <EditText
+        android:id="@+id/fragment_food_entry_fish_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_food_entry_chicken_edittext"
+        android:layout_alignRight="@+id/fragment_food_entry_chicken_edittext"
+        android:ems="10" >
+
+    </EditText>
+    
+</RelativeLayout>

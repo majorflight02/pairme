@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/fragment_beer_entry_food_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:text="Food"
+        android:onClick="onClickLoadFoodEntryFragment" />
+
+    <Button
+        android:id="@+id/fragment_beer_entry_submit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="Submit"
+        android:onClick="onClickSubmitEntry" />
+
+	        
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_beername_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_beername_edittext"
+	        android:text="Beer Name" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_beername_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_alignParentRight="true"
+	        android:ems="10" >
+	
+	        <requestFocus />
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_type_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_beername_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_type_edittext"
+	        android:text="Type" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_type_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_beername_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_beername_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_head_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_type_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_head_edittext"
+	        android:text="Head" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_head_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_type_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_type_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_aroma_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_head_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_aroma_edittext"
+	        android:text="Aroma" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_aroma_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_head_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_head_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_attack_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_aroma_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_attack_edittext"
+	        android:text="Attack" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_attack_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_aroma_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_aroma_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_primary_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_attack_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_primary_edittext"
+	        android:text="Primary" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_primary_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_attack_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_attack_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_secondary_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_primary_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_secondary_edittext"
+	        android:text="Primary" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_secondary_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_primary_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_primary_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_tertiary_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_primary_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_tertiary_edittext"
+	        android:text="Tertiary" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_tertiary_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_primary_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_primary_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_final_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_tertiary_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_final_edittext"
+	        android:text="Final" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_final_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_tertiary_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_tertiary_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_aftertaste_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_final_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_aftertaste_edittext"
+	        android:text="Aftertaste" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_aftertaste_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_final_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_final_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	    
+	    <TextView
+	        android:id="@+id/fragment_beer_entry_body_textfield"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_aftertaste_textfield"
+	        android:layout_alignBaseline="@+id/fragment_beer_entry_body_edittext"
+	        android:text="Body" />
+	
+	    <EditText
+	        android:id="@+id/fragment_beer_entry_body_edittext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/fragment_beer_entry_aftertaste_edittext"
+	        android:layout_alignRight="@+id/fragment_beer_entry_aftertaste_edittext"
+	        android:ems="10" >
+	
+	    </EditText>
+	   
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#505050"
+    android:layout_margin="50dp" >
+
+    <TextView
+        android:id="@+id/fragment_search_beer_search_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:id="@+id/fragment_search_beer_search_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:textColor="#ffffff" >
+
+        <requestFocus />
+    </EditText>
+        
+</RelativeLayout>

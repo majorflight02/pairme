@@ -1,0 +1,253 @@
+package com.fivelakesstudio.db;
+
+import java.util.ArrayList;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+public class MySQLiteAssetHelper extends SQLiteAssetHelper
+{
+	public static final String TAG = "MySQLiteAssetHelper-";
+	private static final boolean DEBUG = false;
+	
+	public static final String COL_NAME = "name";
+	public static final String COL_TYPE = "puzzle_type";
+	public static final String COL_SOLV = "solved";
+	public static final String COL_ID = "id";
+	public static final String COL_PMARKS = "positive_marks";
+	public static final String COL_NMARKS = "negative_marks";
+	public static final String COL_CLUEROW = "clue_row";
+	public static final String COL_CLUECOL = "clue_col";
+	private static final String DATABASE_NAME = "picrosshd";
+	private static final int DATABASE_VERSION = 1;
+	
+	public MySQLiteAssetHelper(Context context)
+	{
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		final String LOCALTAG = TAG+"MySQLiteAssetHelper";
+		
+		// you can use an alternate constructor to specify a database location 
+		// (such as a folder on the sd card)
+		// you must ensure that this folder is available and you have permission
+		// to write to it
+		//super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);	
+	}//MySQLiteAssetHelper
+
+	public PuzzleDbValues getPuzzle(String name)
+	{
+		final String LOCALTAG = TAG+"getPuzzle";
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		PuzzleDbValues pdv = new PuzzleDbValues();
+		String [] sqlSelect = {COL_ID, COL_SOLV, COL_TYPE, COL_NAME, COL_PMARKS, COL_NMARKS, COL_CLUEROW, COL_CLUECOL}; 
+		String sqlTables = "phd_puzzle";
+		String selection = COL_NAME+" = '"+name+"'";
+
+		qb.setTables(sqlTables);
+		//Cursor c = qb.query(db, sqlSelect, null, null, null, null, null);
+		Cursor c = qb.query(db, sqlSelect, selection, null, null, null, null);
+
+		if (c.moveToFirst())
+		{
+			pdv.mId = c.getInt(c.getColumnIndex(COL_ID));
+			pdv.mSolved = c.getInt(c.getColumnIndex(COL_SOLV));
+			pdv.mPuzzleType = c.getString(c.getColumnIndex(COL_TYPE));
+			pdv.mName = c.getString(c.getColumnIndex(COL_NAME));			
+			String pmarks = c.getString(c.getColumnIndex(COL_PMARKS));
+			String nmarks = c.getString(c.getColumnIndex(COL_NMARKS));
+			StringBuilder rowclues = new StringBuilder((c.getString(c.getColumnIndex(COL_CLUEROW)) != null && (c.getString(c.getColumnIndex(COL_CLUEROW)).length() > 0) ? (c.getString(c.getColumnIndex(COL_CLUEROW))) : ("")));
+			StringBuilder colclues = new StringBuilder((c.getString(c.getColumnIndex(COL_CLUECOL)) != null && (c.getString(c.getColumnIndex(COL_CLUECOL)).length() > 0) ? (c.getString(c.getColumnIndex(COL_CLUECOL))) : ("")));
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			
+			if (pmarks != null && pmarks.length() > 0)
+			{
+				for (int a = 0; a < pmarks.length(); a++)
+				{
+					pdv.mPMarks.add(String.valueOf(pmarks.charAt(a)));
+					pdv.mNMarks.add(String.valueOf(nmarks.charAt(a)));
+				}//for
+				if (DEBUG)
+					Log.v(LOCALTAG, "row:"+pdv.mId+", puzzle:'"+pdv.mName+"' loaded and pmarks:"+pmarks+" nmarks:"+nmarks);
+			}//if
+			else
+				Log.v(LOCALTAG, "row:"+pdv.mId+", puzzle:'"+pdv.mName+"' loaded and no marks");
+			
+			if (DEBUG)
+			{
+				Log.v(LOCALTAG, "rowclues:"+rowclues+" and size:"+rowclues.length());
+				Log.v(LOCALTAG, "colclues:"+colclues);
+			}//if debug
+			
+			if (rowclues.length() > 0)
+			{
+				while (rowclues.length() > 0)
+				{
+					int key = Integer.valueOf(String.valueOf(rowclues.charAt(0)));	//converts unicode char to its string representation, then converts the string to an int. i.e. unicode 51 -> string('2'), String('2') -> integer(2) 
+					String str = rowclues.substring(2, rowclues.indexOf("]"));
+					int closebracket = rowclues.indexOf("]");
+					rowclues.delete(0, closebracket+1);
+					char cc;
+					
+					while (str.length() > 0)	
+					{						
+						cc = str.charAt(0);			
+						list.add(Integer.valueOf(String.valueOf(cc)));
+						if (str.length() >= 2)
+							str = str.substring(2);
+						else
+							str = "";
+					}//for
+					
+					pdv.mRowClues.put(key, list);
+					list = new ArrayList<Integer>();
+					if (DEBUG)
+						Log.v(LOCALTAG, "rowclues:"+rowclues+" and size:"+rowclues.length());
+				}//while
+				
+				if (DEBUG)
+				{
+					Log.v(LOCALTAG, "mRowClues size:"+pdv.mRowClues.size());
+					for (int a = 0; a < pdv.mRowClues.size(); a++)
+					{
+						Log.v(LOCALTAG, "key:"+pdv.mRowClues.keyAt(a)+", value:"+pdv.mRowClues.get(pdv.mRowClues.keyAt(a)));
+					}//for
+				}//ifdebug
+			}//if
+				
+			if (colclues.length() > 0)
+			{
+				
+				while (colclues.length() > 0)
+				{
+					int key = Integer.valueOf(String.valueOf(colclues.charAt(0)));	//converts unicode char to its string representation, then converts the string to an int. i.e. unicode 51 -> string('2'), String('2') -> integer(2) 
+					String str = colclues.substring(2, colclues.indexOf("]"));
+					int closebracket = colclues.indexOf("]");
+					colclues.delete(0, closebracket+1);
+					char cc;
+					
+					while (str.length() > 0)	
+					{						
+						cc = str.charAt(0);				
+						list.add(Integer.valueOf(String.valueOf(cc)));
+						if (str.length() >= 2)
+							str = str.substring(2);
+						else
+							str = "";
+					}//for
+					
+					pdv.mColClues.put(key, list);
+					list = new ArrayList<Integer>();
+					if (DEBUG)
+						Log.v(LOCALTAG, "colclues:"+colclues+" and size:"+colclues.length());
+				}//while
+				
+				if (DEBUG)
+				{
+					Log.v(LOCALTAG, "mColClues size:"+pdv.mColClues.size());
+					for (int a = 0; a < pdv.mColClues.size(); a++)
+					{
+						Log.v(LOCALTAG, "key:"+pdv.mColClues.keyAt(a)+", value:"+pdv.mColClues.get(pdv.mColClues.keyAt(a)));
+					}//for
+				}//ifdebug				
+			}//if
+		}//if cursor
+		
+		return pdv;
+	}//getPuzzle
+	
+	public void writePuzzle(PuzzleDbValues pdv)
+	{
+		final String LOCALTAG = TAG+"writePuzzle";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "start");
+		
+		SQLiteDatabase db = getWritableDatabase();
+	
+		String sqlTables = "phd_puzzle";
+		ContentValues cv = new ContentValues();
+		String whereClause = COL_ID+" = "+pdv.mId;
+		String pmarks = "";
+		String nmarks = "";
+		StringBuilder rowclues = new StringBuilder("");
+		StringBuilder colclues = new StringBuilder("");
+		
+		for (int a = 0; a < pdv.mPMarks.size(); a++)
+		{
+			pmarks = pmarks+pdv.mPMarks.get(a);
+			nmarks = nmarks+pdv.mNMarks.get(a);
+		}//for
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "pmarks:"+pmarks+", and nmarks:"+nmarks);
+		
+		for (int a = 0; a < pdv.mRowClues.size(); a++)
+		{
+			int key = pdv.mRowClues.keyAt(a);
+			rowclues.append(key+"[");
+			
+			ArrayList<Integer> list = (ArrayList<Integer>) pdv.mRowClues.get(key);
+			for (int b = 0; b < list.size(); b++)
+				rowclues.append(list.get(b)+",");
+			
+			rowclues.deleteCharAt(rowclues.length()-1);
+			rowclues.append("]");
+		}//for
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "clue_row: "+rowclues);
+		
+		for (int a = 0; a < pdv.mColClues.size(); a++)
+		{
+			int key = pdv.mColClues.keyAt(a);
+			colclues.append(key+"[");
+			
+			ArrayList<Integer> list = (ArrayList<Integer>) pdv.mColClues.get(key);			
+			for (int b = 0; b < list.size(); b++)
+				colclues.append(list.get(b)+",");
+			
+			colclues.deleteCharAt(colclues.length()-1);
+			colclues.append("]");
+		}//for
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, "clue_col: "+colclues);
+		
+		cv.put(COL_NAME, pdv.mName);
+		cv.put(COL_SOLV, pdv.mSolved);
+		cv.put(COL_PMARKS, pmarks);
+		cv.put(COL_NMARKS, nmarks);
+		cv.put(COL_CLUEROW, rowclues.toString());
+		cv.put(COL_CLUECOL, colclues.toString());
+		
+		if (pdv.mId > 0)
+			db.update(sqlTables, cv, whereClause, null);
+		else
+			db.insert(sqlTables, null, cv);
+		
+	}//writePuzzle
+	
+	public void getPuzzlePackMenu() 
+	{
+		final String LOCALTAG = TAG+"getPuzzlePack";
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		/*
+		String [] sqlSelect = {"0 _id", "FirstName", "LastName"}; 
+		String sqlTables = "phd_puzzlepack";
+
+		qb.setTables(sqlTables);
+		Cursor c = qb.query(db, sqlSelect, null, null, null, null, null);
+
+		c.moveToFirst();
+		return c;
+		*/
+	}//getEmployees
+}//MySQLiteAssetHelper
