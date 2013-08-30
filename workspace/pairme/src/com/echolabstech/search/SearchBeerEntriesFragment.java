@@ -8,6 +8,8 @@ import com.echolabstech.pairme.R;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -17,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SearchBeerEntriesFragment extends Fragment
+public class SearchBeerEntriesFragment extends Fragment implements OnClickListener, TextWatcher
 {
 	public static final String TAG = "SearchBeerEntriesFragment-";
 	public static final boolean DEBUG = true;
@@ -63,15 +65,10 @@ public class SearchBeerEntriesFragment extends Fragment
 		mLayout = inflater.inflate(R.layout.fragment_search_beer, container, false);	
 		
 		mSearchEditText = (EditText) mLayout.findViewById(R.id.fragment_search_beer_search_edittext);
+		mSearchEditText.addTextChangedListener(this);
+		
 		mSearchButton = (Button) mLayout.findViewById(R.id.fragment_search_beer_search_button);
-		mSearchButton.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				searchBeerByName(mSearchEditText.getText().toString());
-			}//onClick
-		});//onclick listener
+		mSearchButton.setOnClickListener(this);
 		
 		return mLayout;		
 	}//onCreateView
@@ -95,6 +92,39 @@ public class SearchBeerEntriesFragment extends Fragment
 		if (DEBUG)
 			Log.v(LOCALTAG, "resume");
 	}//onResume	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		searchBeerByName(mSearchEditText.getText().toString());
+	}//onClick
+	
+	@Override
+	public void afterTextChanged(Editable s) 
+	{
+		final String LOCALTAG = TAG+"afterTextChanged";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, s.toString());
+	}//afterTextChanged
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) 
+	{
+		final String LOCALTAG = TAG+"beforeTextChanged";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, s.toString());
+	}//beforeTextChanged
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) 
+	{
+		final String LOCALTAG = TAG+"onTextChanged";
+		
+		if (DEBUG)
+			Log.v(LOCALTAG, s.toString());
+	}//onTextChanged
 	
 	private void searchBeerByName(String search)
 	{
