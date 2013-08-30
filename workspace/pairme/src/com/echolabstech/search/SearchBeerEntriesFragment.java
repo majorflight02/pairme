@@ -28,6 +28,7 @@ public class SearchBeerEntriesFragment extends Fragment implements OnClickListen
 	private static final ArrayList<GameWonFragmentCommunication> mListeners = new ArrayList<GameWonFragmentCommunication>();
 	private EditText mSearchEditText;
 	private Button mSearchButton;
+	private SearchBeerEntriesAdapter mAdapter;
 	
 	public interface GameWonFragmentCommunication
 	{
@@ -126,13 +127,15 @@ public class SearchBeerEntriesFragment extends Fragment implements OnClickListen
 			Log.v(LOCALTAG, s.toString());
 	}//onTextChanged
 	
-	private void searchBeerByName(String search)
+	private SparseArray<Beer> searchBeerByName(String search)
 	{
 		final String LOCALTAG = TAG+"onStart";
 		
 		SparseArray<Beer> beers = new SparseArray<Beer>();
 		beers = MainActivity.mBeerPairingsDb.getBeerRecordBySearchString(search);
 		Log.v(LOCALTAG, "number of results:"+beers.size());
+		
+		return beers;
 	}//searchBeerByName
 	
 }//FoodEntryFragmet
