@@ -1,58 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
     
-    <Button
-        android:id="@+id/fragment_beer_entry_food_btn"
+    <LinearLayout
+        android:id="@+id/fragment_beer_buttons_linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/fragment_beer_entry_submit_btn"
-        android:layout_toLeftOf="@+id/fragment_beer_entry_search_btn"
-        android:text="Food" />
-    
-    <Button
-        android:id="@+id/fragment_beer_entry_search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/fragment_beer_entry_submit_btn"
-        android:layout_toLeftOf="@+id/fragment_beer_entry_submit_btn"
-        android:text="Search" />
-
-    <Button
-        android:id="@+id/fragment_beer_entry_submit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:text="Submit" />
-
+	    android:layout_alignParentRight="true" >
+        
+	    <Button
+	        android:id="@+id/fragment_beer_entry_food_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Food" />
+	    
+	    <Button
+	        android:id="@+id/fragment_beer_entry_search_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Search" />
+	
+	    <Button
+	        android:id="@+id/fragment_beer_entry_submit_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Submit" />
+	    
+	</LinearLayout>
 	        
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
 	    <TextView
 	        android:id="@+id/fragment_beer_entry_beername_textfield"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignBaseline="@+id/fragment_beer_entry_beername_edittext"
 	        android:text="Beer Name" />
 	
 	    <EditText
 	        android:id="@+id/fragment_beer_entry_beername_edittext"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-	        android:layout_alignParentRight="true"
 	        android:ems="10" >
 	
 	        <requestFocus />
 	    </EditText>
 	    
+    </LinearLayout>
+	    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
 	    <TextView
 	        android:id="@+id/fragment_beer_entry_type_textfield"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/fragment_beer_entry_beername_textfield"
 	        android:layout_alignBaseline="@+id/fragment_beer_entry_type_edittext"
 	        android:text="Type" />
 	
@@ -66,6 +76,13 @@
 	
 	    </EditText>
 	    
+    </LinearLayout>
+	    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
 	    <TextView
 	        android:id="@+id/fragment_beer_entry_head_textfield"
 	        android:layout_width="wrap_content"
@@ -83,6 +100,13 @@
 	        android:ems="10" >
 	
 	    </EditText>
+	    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 	    
 	    <TextView
 	        android:id="@+id/fragment_beer_entry_aroma_textfield"
@@ -102,6 +126,13 @@
 	
 	    </EditText>
 	    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
 	    <TextView
 	        android:id="@+id/fragment_beer_entry_attack_textfield"
 	        android:layout_width="wrap_content"
@@ -120,6 +151,9 @@
 	
 	    </EditText>
 	    
+    </LinearLayout>
+    
+    
 	    <TextView
 	        android:id="@+id/fragment_beer_entry_primary_textfield"
 	        android:layout_width="wrap_content"
@@ -192,40 +226,50 @@
 	
 	    </EditText>
 	    
-	    <TextView
-	        android:id="@+id/fragment_beer_entry_aftertaste_textfield"
+	    <LinearLayout
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/fragment_beer_entry_final_textfield"
-	        android:layout_alignBaseline="@+id/fragment_beer_entry_aftertaste_edittext"
-	        android:text="Aftertaste" />
-	
-	    <EditText
-	        android:id="@+id/fragment_beer_entry_aftertaste_edittext"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/fragment_beer_entry_final_edittext"
-	        android:layout_alignRight="@+id/fragment_beer_entry_final_edittext"
-	        android:ems="10" >
-	
-	    </EditText>
+	        android:orientation="horizontal" >
+	        
+		    <TextView
+		        android:id="@+id/fragment_beer_entry_aftertaste_textfield"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/fragment_beer_entry_final_textfield"
+		        android:layout_alignBaseline="@+id/fragment_beer_entry_aftertaste_edittext"
+		        android:text="Aftertaste" />
+		
+		    <EditText
+		        android:id="@+id/fragment_beer_entry_aftertaste_edittext"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/fragment_beer_entry_final_edittext"
+		        android:layout_alignRight="@+id/fragment_beer_entry_final_edittext"
+		        android:ems="10" >
+		
+		    </EditText>
+		    
+	    </LinearLayout>
 	    
-	    <TextView
-	        android:id="@+id/fragment_beer_entry_body_textfield"
+	    <LinearLayout
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/fragment_beer_entry_aftertaste_textfield"
-	        android:layout_alignBaseline="@+id/fragment_beer_entry_body_edittext"
-	        android:text="Body" />
-	
-	    <EditText
-	        android:id="@+id/fragment_beer_entry_body_edittext"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/fragment_beer_entry_aftertaste_edittext"
-	        android:layout_alignRight="@+id/fragment_beer_entry_aftertaste_edittext"
-	        android:ems="10" >
-	
-	    </EditText>
+	        android:orientation="horizontal" >
+	        
+		    <TextView
+		        android:id="@+id/fragment_beer_entry_body_textfield"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Body" />
+		
+		    <EditText
+		        android:id="@+id/fragment_beer_entry_body_edittext"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:ems="10" >
+		
+		    </EditText>
+	    
+	    </LinearLayout>
 	   
-</RelativeLayout>
+</LinearLayout>
